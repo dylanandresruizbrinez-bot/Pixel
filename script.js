@@ -184,3 +184,40 @@ designSelect.addEventListener("change",applyDesign);
 
 applyColor();
 applyDesign();
+#speechBubble{
+    position:fixed;
+    top:75px;
+    left:50%;
+    transform:translateX(-50%);
+
+    max-width:500px;
+
+    background:#222;
+    color:white;
+
+    border:2px solid #666;
+    border-radius:10px;
+
+    padding:12px;
+
+    font-family:monospace;
+    font-size:14px;
+
+    text-align:center;
+
+    opacity:0;
+    transition:.5s;
+
+    z-index:999;
+}
+
+#speechBubble.show{
+    opacity:1;
+}
+
+.energyMode{
+    filter:
+        drop-shadow(0 0 10px gold)
+        drop-shadow(0 0 20px gold)
+        drop-shadow(0 0 30px gold);
+}
