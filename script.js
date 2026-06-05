@@ -92,3 +92,95 @@ function gameLoop() {
 }
 
 gameLoop();
+
+const colorSelect = document.getElementById("colorSelect");
+const designSelect = document.getElementById("designSelect");
+const trailSelect = document.getElementById("trailSelect");
+const trailContainer = document.getElementById("trailContainer");
+
+const colorMap = {
+    white:"#ffffff",
+    blue:"#00aaff",
+    yellow:"#ffff00",
+    red:"#ff3333",
+    green:"#00ff66",
+    orange:"#ff8800",
+    purple:"#bb55ff",
+    black:"#111111",
+    gray:"#999999",
+    gold:"#ffd700",
+    pink:"#ff66cc"
+};
+
+function applyColor(){
+
+    const color = colorMap[colorSelect.value];
+
+    player.style.background = color;
+    player.style.borderColor = color;
+
+    player.style.boxShadow = `
+        0 0 5px ${color},
+        0 0 10px ${color},
+        0 0 20px ${color},
+        0 0 40px ${color}
+    `;
+}
+
+function applyDesign(){
+
+    player.classList.remove(
+        "design-round",
+        "design-border",
+        "design-dots",
+        "design-stripes",
+        "design-spikes"
+    );
+
+    switch(designSelect.value){
+
+        case "round":
+            player.classList.add("design-round");
+            break;
+
+        case "border":
+            player.classList.add("design-border");
+            break;
+
+        case "dots":
+            player.classList.add("design-dots");
+            break;
+
+        case "stripes":
+            player.classList.add("design-stripes");
+            break;
+
+        case "spikes":
+            player.classList.add("design-spikes");
+            break;
+    }
+}
+
+setInterval(() => {
+
+    const mark = document.createElement("div");
+
+    mark.className = "trail";
+    mark.textContent = trailSelect.value;
+
+    mark.style.left = (x + 10) + "px";
+    mark.style.top = (y + 10) + "px";
+
+    trailContainer.appendChild(mark);
+
+    setTimeout(() => {
+        mark.remove();
+    },1500);
+
+},120);
+
+colorSelect.addEventListener("change",applyColor);
+designSelect.addEventListener("change",applyDesign);
+
+applyColor();
+applyDesign();
