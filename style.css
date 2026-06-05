@@ -107,3 +107,31 @@ body{
         transform:scale(0.4);
     }
 }
+.design-round{
+    border-radius:10px;
+}
+
+.design-border{
+    border-width:5px !important;
+}
+
+.design-dots{
+    background-image:
+        radial-gradient(white 15%, transparent 16%);
+    background-size:8px 8px;
+}
+
+.design-stripes{
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 4px,
+            rgba(255,255,255,.4) 4px,
+            rgba(255,255,255,.4) 8px
+        );
+}
+
+.design-spikes{
+    transform:rotate(45deg);
+}
