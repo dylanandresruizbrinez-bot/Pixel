@@ -7,55 +7,59 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-</div>
+
     <div id="menu">
-    <div class="section">
-    <button id="shopButton">🛒 Tienda</button>
-</div>
 
-<div id="pointsPanel">
-    Puntos: <span id="points">0</span>
-</div>
+        <div class="section">
+            <button id="shopButton">🛒 Tienda</button>
+        </div>
 
-<div id="notificationContainer"></div>
+        <div class="section">
+            <label>Color</label>
+            <select id="colorSelect">
+                <option value="white">Blanco</option>
+            </select>
+        </div>
 
-<div id="shop">
-    <h2>Tienda</h2>
+        <div class="section">
+            <label>Diseño</label>
+            <select id="designSelect">
+                <option value="normal">Esquinas</option>
+            </select>
+        </div>
 
-    <div id="shopContent"></div>
+        <div class="section">
+            <label>Caminos</label>
+            <select id="trailSelect">
+                <option value=".">.</option>
+            </select>
+        </div>
 
-    <button id="closeShop">Cerrar</button>
-    <div class="section">
-        <label>Color</label>
-        <select id="colorSelect">
-            <option value="white">Blanco</option>
-            
-        </select>
     </div>
 
-    <div class="section">
-        <label>Diseño</label>
-        <select id="designSelect">
-            <option value="normal">Esquinas</option>
-            
-        </select>
+    <div id="pointsPanel">
+        Puntos: <span id="points">0</span>
     </div>
 
-    <div class="section">
-        <label>Caminos</label>
-        <select id="trailSelect">
+    <div id="notificationContainer"></div>
 
-            <option value="-">-</option>
-    
-        </select>
+    <div id="shop">
+
+        <h2>Tienda</h2>
+
+        <div id="shopContent"></div>
+
+        <button id="closeShop">Cerrar</button>
+
     </div>
 
-</div>
-<div id="speechBubble"></div>
-<div id="trailContainer"></div>
+    <div id="speechBubble"></div>
 
-<div id="player"></div>
+    <div id="trailContainer"></div>
+
+    <div id="player"></div>
+
     <script src="script.js"></script>
+
 </body>
 </html>
