@@ -178,3 +178,83 @@ body{
         drop-shadow(0 0 20px gold)
         drop-shadow(0 0 30px gold);
 }
+#pointsPanel{
+    position:fixed;
+    right:15px;
+    bottom:15px;
+
+    background:#222;
+    color:gold;
+
+    padding:10px;
+
+    border:2px solid gold;
+
+    font-family:monospace;
+
+    z-index:1000;
+}
+
+#notificationContainer{
+    position:fixed;
+    right:15px;
+    top:80px;
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+    z-index:2000;
+}
+
+.notification{
+    background:#333;
+    color:white;
+
+    padding:10px;
+
+    border-left:4px solid cyan;
+
+    font-family:monospace;
+
+    animation:notify 5s forwards;
+}
+
+@keyframes notify{
+    0%{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+    100%{
+        opacity:0;
+        transform:translateX(50px);
+    }
+}
+
+#shop{
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:600px;
+    max-height:70vh;
+
+    overflow:auto;
+
+    background:#222;
+
+    border:2px solid #666;
+
+    color:white;
+
+    padding:20px;
+
+    display:none;
+
+    z-index:5000;
+}
+    
