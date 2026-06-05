@@ -1,3 +1,51 @@
+const inventory = {
+    colors:["white"],
+    designs:["normal"],
+    trails:["."]
+};
+const shopItems = [
+
+{type:"color",id:"blue",price:100},
+{type:"color",id:"yellow",price:100},
+{type:"color",id:"red",price:100},
+{type:"color",id:"green",price:100},
+{type:"color",id:"orange",price:100},
+{type:"color",id:"purple",price:100},
+{type:"color",id:"black",price:100},
+{type:"color",id:"gray",price:100},
+{type:"color",id:"gold",price:150},
+{type:"color",id:"pink",price:150},
+
+{type:"design",id:"round",price:250},
+{type:"design",id:"border",price:250},
+{type:"design",id:"dots",price:250},
+{type:"design",id:"stripes",price:250},
+{type:"design",id:"spikes",price:250},
+
+{type:"trail",id:":",price:150},
+{type:"trail",id:"(",price:150},
+{type:"trail",id:"-",price:150},
+{type:"trail",id:"67",price:200},
+{type:"trail",id:"F",price:200},
+{type:"trail",id:"I",price:200},
+{type:"trail",id:"o",price:150},
+{type:"trail",id:'"',price:150}
+
+];
+let points = 0;
+let multiplier = 1;
+
+const pointsText =
+document.getElementById("points");
+
+const shop =
+document.getElementById("shop");
+
+const shopContent =
+document.getElementById("shopContent");
+
+const notificationContainer =
+document.getElementById("notificationContainer");
 const speechBubble = document.getElementById("speechBubble");
 
 const messages = [
@@ -47,7 +95,62 @@ let moveDirection = 1;
 let desiredSpeed = 0;
 
 let nextDecision = Date.now() + 1000;
+function notify(text){
 
+    const div =
+    document.createElement("div");
+
+    div.className = "notification";
+
+    div.textContent = text;
+
+    notificationContainer.appendChild(div);
+
+    setTimeout(() => {
+        div.remove();
+    },5000);
+}
+setInterval(() => {
+
+    points += multiplier;
+
+    pointsText.textContent = points;
+
+},1000);
+setInterval(() => {
+
+    let roll = Math.random();
+
+    if(energyMode){
+
+        roll -= 0.10;
+    }
+
+    if(roll < 0.05){
+
+        multiplier = 5;
+
+        notify("🔥 Multiplicador x5");
+
+    }else if(roll < 0.20){
+
+        multiplier = 3;
+
+        notify("⚡ Multiplicador x3");
+
+    }else if(roll < 0.50){
+
+        multiplier = 2;
+
+        notify("✨ Multiplicador x2");
+
+    }else{
+
+        multiplier = 1;
+    }
+
+},10000);notify("🤖 Bono del Bot activo");
+notify("🤖 Bono del Bot finalizado");
 function botBrain() {
 
     if (Date.now() < nextDecision) return;
@@ -95,7 +198,57 @@ function say(message){
         speechBubble.classList.remove("show");
     }, 9000);
 }
+function buildShop(){
 
+    shopContent.innerHTML = "";
+
+    shopItems.forEach(item => {
+
+        const btn =
+        document.createElement("button");
+
+        btn.textContent =
+        `${item.id} - ${item.price}`;
+
+        btn.onclick = () => {
+
+            if(points < item.price){
+                notify("❌ Puntos insuficientes");
+                return;
+            }
+
+            points -= item.price;
+
+            inventory[
+                item.type + "s"
+            ].push(item.id);
+
+            notify(
+                `✅ Comprado ${item.id}`
+            );
+
+            pointsText.textContent =
+            points;
+        };
+
+        shopContent.appendChild(btn);
+        shopContent.appendChild(
+            document.createElement("br")
+        );
+
+    });
+}
+shopButton.onclick = () => {
+
+    buildShop();
+
+    shop.style.display = "block";
+};
+
+closeShop.onclick = () => {
+
+    shop.style.display = "none";
+};
 function randomMessage(){
 
     const msg =
