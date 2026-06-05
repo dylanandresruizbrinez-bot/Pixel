@@ -1,4 +1,4 @@
-/* Reinicio básico */
+/* Reinicio */
 *{
     margin:0;
     padding:0;
@@ -10,8 +10,48 @@ html, body{
     height:100%;
 }
 
-/* Fondo negro puro */
 body{
-    background:#000000;
+    background:#000;
     overflow:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Cuadrado retro-neón */
+#player{
+    width:32px;
+    height:32px;
+
+    background:#ffffff;
+    border:2px solid #7df9ff;
+
+    box-shadow:
+        0 0 5px #7df9ff,
+        0 0 10px #7df9ff,
+        0 0 20px #7df9ff,
+        0 0 40px #00ffff;
+
+    image-rendering: pixelated;
+
+    animation: neonPulse 1.5s infinite alternate;
+}
+
+@keyframes neonPulse{
+    from{
+        box-shadow:
+            0 0 5px #7df9ff,
+            0 0 10px #7df9ff,
+            0 0 20px #7df9ff,
+            0 0 40px #00ffff;
+    }
+
+    to{
+        box-shadow:
+            0 0 10px #7df9ff,
+            0 0 20px #7df9ff,
+            0 0 40px #7df9ff,
+            0 0 80px #00ffff;
+    }
 }
