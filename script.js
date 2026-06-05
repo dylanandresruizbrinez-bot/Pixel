@@ -1,3 +1,35 @@
+const speechBubble = document.getElementById("speechBubble");
+
+const messages = [
+
+"¡Buenos días! Hoy es una nueva oportunidad para brillar.",
+"¡Qué alegría verte! Presiento que hoy vas a lograr algo genial.",
+
+"¡Oye, lo estás haciendo increíble! No te rindas.",
+"¡Eso estuvo espectacular! Sabía que podías lograrlo.",
+"Si las cosas se ponen difíciles, recuerda que yo confío en ti al 100%.",
+
+"No olvides estirarte un poquito y tomar agua hoy, ¿vale?",
+"¡Un descanso también es parte del éxito! Respira hondo.",
+"Paso a recordarte que eres una persona súper valiosa.",
+
+"Diste lo mejor de ti hoy, ¡estoy muy orgulloso!",
+"A descansar, campeón. Mañana será otro gran día.",
+
+"¡El primer paso es el más importante y ya lo diste!",
+"No tienes que ser perfecto, ¡con que seas tú mismo es más que suficiente!",
+"¡Atrévete a intentar algo nuevo hoy! Yo te echo porras desde aquí.",
+"Tus metas son grandes, ¡pero tú eres mucho más grande que ellas!",
+
+"Cámbiate el 'no puedo' por el 'voy a ver cómo lo logro'.",
+"Está bien tener días grises, recuerda que después de la tormenta siempre sale el sol.",
+"¡Ey, respira! Todo va a salir bien, vas a ver que sí.",
+
+"¡Choca esos cinco! Tu esfuerzo de hoy valió totalmente la pena.",
+"Cada pequeño avance cuenta. ¡Celébralo!",
+"Gracias por contagiarme tu buena vibra."
+
+];
 const player = document.getElementById("player");
 
 const SIZE = 32;
@@ -27,7 +59,12 @@ function botBrain() {
     if (action < 0.45) {
 
         moveDirection = -1;
-        desiredSpeed = 2 + Math.random() * 2;
+        const speedBoost =
+    energyMode ? 2.2 : 1;
+
+desiredSpeed =
+    (2 + Math.random() * 2) *
+    speedBoost;
 
     } else if (action < 0.90) {
 
@@ -42,10 +79,77 @@ function botBrain() {
     const onGround = y >= floor();
 
     if (onGround && Math.random() < 0.35) {
-        velocityY = -8 - Math.random() * 2;
+        velocityY =
+    energyMode
+        ? -14 - Math.random() * 4
+        : -8 - Math.random() * 2;
     }
 }
+function say(message){
 
+    speechBubble.textContent = message;
+
+    speechBubble.classList.add("show");
+
+    setTimeout(() => {
+        speechBubble.classList.remove("show");
+    }, 9000);
+}
+
+function randomMessage(){
+
+    const msg =
+        messages[Math.floor(Math.random() * messages.length)];
+
+    say(msg);
+}
+setTimeout(() => {
+    randomMessage();
+}, 2000);
+setInterval(() => {
+
+    if(Math.random() < 0.35){
+        randomMessage();
+    }
+
+}, 45000);
+let energyMode = false;
+let energyEnd = 0;
+function activateEnergyBoost(){
+
+    energyMode = true;
+
+    energyEnd =
+        Date.now() + 30000;
+
+    player.classList.add("energyMode");
+
+    say("⚡ ¡Tengo un impulso de energía! ¡Vamos allá!");
+}
+
+function updateEnergyBoost(){
+
+    if(
+        energyMode &&
+        Date.now() > energyEnd
+    ){
+        energyMode = false;
+        player.classList.remove("energyMode");
+
+        say("😌 Ya me siento más tranquilo.");
+    }
+}
+setInterval(() => {
+
+    if(Math.random() < 0.20){
+
+        if(!energyMode){
+            activateEnergyBoost();
+        }
+
+    }
+
+}, 60000);
 function floor() {
     return window.innerHeight - SIZE - 4;
 }
@@ -87,7 +191,7 @@ function updatePhysics() {
 function gameLoop() {
 
     updatePhysics();
-
+updateEnergyBoost();
     requestAnimationFrame(gameLoop);
 }
 
