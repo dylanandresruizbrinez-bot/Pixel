@@ -4,13 +4,7 @@ const shopButton = document.getElementById("shopButton");
 const closeShop = document.getElementById("closeShop");
 const shop = document.getElementById("shop");
 const shopContent = document.getElementById("shopContent");
-
-
-
-
-
-
-
+const player = document.getElementById("player");
 closeShop.addEventListener("click", () => {
 
     menu.classList.remove("expanded");
@@ -109,7 +103,7 @@ messages = [
 "Gracias por contagiarme tu buena vibra."
 
 ];
-const player = document.getElementById("player");
+
 
 const SIZE = 32;
 
