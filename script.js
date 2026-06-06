@@ -5,7 +5,7 @@ const closeShop = document.getElementById("closeShop");
 const shop = document.getElementById("shop");
 const shopContent = document.getElementById("shopContent");
 
-const speechBubble = document.getElementById("speechBubble");
+
 const player = document.getElementById("player");
 
 
@@ -79,7 +79,7 @@ document.getElementById("notificationContainer");
 const speechBubble = document.getElementById("speechBubble");
 
 
-essages = [
+const messages = [
 
 "¡Buenos días! Hoy es una nueva oportunidad para brillar.",
 "¡Qué alegría verte! Presiento que hoy vas a lograr algo genial.",
