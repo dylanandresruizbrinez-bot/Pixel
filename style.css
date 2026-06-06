@@ -55,18 +55,26 @@ body{
     position:fixed;
     top:0;
     left:0;
+
     width:100%;
     height:60px;
 
     background:#444;
-    border-bottom:2px solid #666;
 
     display:flex;
     align-items:center;
     gap:20px;
 
     padding:10px 20px;
+
+    overflow:hidden;
+
+    transition:height .4s ease;
+
     z-index:1000;
+}
+#menu.expanded{
+    height:400px;
 }
 
 .section{
@@ -233,28 +241,26 @@ body{
 }
 
 #shop{
-    position:fixed;
-
-    top:50%;
-    left:50%;
-
-    transform:translate(-50%,-50%);
-
-    width:600px;
-    max-height:70vh;
-
-    overflow:auto;
+    margin-top:20px;
 
     background:#222;
 
     border:2px solid #666;
 
-    color:white;
-
-    padding:20px;
+    padding:15px;
 
     display:none;
 
-    z-index:5000;
+    width:100%;
 }
-    
+    #pointsPanel{
+    margin-left:auto;
+
+    color:gold;
+
+    font-family:monospace;
+
+    font-size:18px;
+
+    font-weight:bold;
+}
