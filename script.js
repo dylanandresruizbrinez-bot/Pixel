@@ -3,6 +3,7 @@ const shopButton = document.getElementById("shopButton");
 const closeShop = document.getElementById("closeShop");
 const shop = document.getElementById("shop");
 
+
 let points = 0;
 setInterval(() => {
 
@@ -59,7 +60,6 @@ const shopItems = [
 {type:"trail",id:'"',price:150}
 
 ];
-let points = 0;
 let multiplier = 1;
 
 const pointsText =
