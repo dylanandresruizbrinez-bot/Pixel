@@ -4,7 +4,7 @@ const shopButton = document.getElementById("shopButton");
 const closeShop = document.getElementById("closeShop");
 const shop = document.getElementById("shop");
 const shopContent = document.getElementById("shopContent");
-const notificationContainer = document.getElementById("notificationContainer");
+
 const speechBubble = document.getElementById("speechBubble");
 const player = document.getElementById("player");
 
