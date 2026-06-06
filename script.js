@@ -55,19 +55,34 @@ const shopItems = [
 let points = 0;
 let multiplier = 1;
 
-const pointsText =
-document.getElementById("points");
+const pointsText = document.getElementById("points");
 
-window.onload = () => {
-    console.log("READY");
-    notify("🤖 Bono del Bot activo");
-notify("🤖 Bono del Bot finalizado");
-};
+function startPoints(){
+
+    setInterval(() => {
+
+        points += multiplier;
+
+        if(pointsText){
+            pointsText.textContent = points;
+        }
+
+    }, 1000);
+
+}
+
+startPoints();
+
+
 const notificationContainer =
 document.getElementById("notificationContainer");
 const speechBubble = document.getElementById("speechBubble");
 
-const messages = [
+const mwindow.onload = () => {
+    console.log("READY");
+    notify("🤖 Bono del Bot activo");
+notify("🤖 Bono del Bot finalizado");
+};essages = [
 
 "¡Buenos días! Hoy es una nueva oportunidad para brillar.",
 "¡Qué alegría verte! Presiento que hoy vas a lograr algo genial.",
