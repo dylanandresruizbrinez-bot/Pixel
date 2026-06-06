@@ -3,7 +3,10 @@ const menu = document.getElementById("menu");
 const shopButton = document.getElementById("shopButton");
 const closeShop = document.getElementById("closeShop");
 const shop = document.getElementById("shop");
-
+const shopContent = document.getElementById("shopContent");
+const notificationContainer = document.getElementById("notificationContainer");
+const speechBubble = document.getElementById("speechBubble");
+const player = document.getElementById("player");
 
 
 
@@ -55,7 +58,11 @@ let multiplier = 1;
 const pointsText =
 document.getElementById("points");
 
-
+window.onload = () => {
+    console.log("READY");
+    notify("🤖 Bono del Bot activo");
+notify("🤖 Bono del Bot finalizado");
+};
 const notificationContainer =
 document.getElementById("notificationContainer");
 const speechBubble = document.getElementById("speechBubble");
@@ -161,8 +168,7 @@ setInterval(() => {
         multiplier = 1;
     }
 
-},10000);notify("🤖 Bono del Bot activo");
-notify("🤖 Bono del Bot finalizado");
+},10000);
 function botBrain() {
 
     if (Date.now() < nextDecision) return;
