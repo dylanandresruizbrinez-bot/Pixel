@@ -76,13 +76,13 @@ const mwindow.onload = () => {
     console.log("READY");
     notify("🤖 Bono del Bot activo");
 notify("🤖 Bono del Bot finalizado");
-
+};
 const notificationContainer =
 document.getElementById("notificationContainer");
 const speechBubble = document.getElementById("speechBubble");
 
 
-};essages = [
+essages = [
 
 "¡Buenos días! Hoy es una nueva oportunidad para brillar.",
 "¡Qué alegría verte! Presiento que hoy vas a lograr algo genial.",
