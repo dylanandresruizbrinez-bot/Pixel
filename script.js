@@ -6,7 +6,7 @@ const shop = document.getElementById("shop");
 const shopContent = document.getElementById("shopContent");
 
 
-const player = document.getElementById("player");
+
 
 
 
