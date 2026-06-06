@@ -1,3 +1,30 @@
+const menu = document.getElementById("menu");
+const shopButton = document.getElementById("shopButton");
+const closeShop = document.getElementById("closeShop");
+const shop = document.getElementById("shop");
+
+let points = 0;
+setInterval(() => {
+
+    points += multiplier;
+
+    document.getElementById("points").textContent = points;
+
+}, 1000);
+shopButton.addEventListener("click", () => {
+
+    menu.classList.add("expanded");
+
+    shop.style.display = "block";
+
+});
+closeShop.addEventListener("click", () => {
+
+    menu.classList.remove("expanded");
+
+    shop.style.display = "none";
+
+});
 const inventory = {
     colors:["white"],
     designs:["normal"],
