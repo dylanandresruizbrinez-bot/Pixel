@@ -12,13 +12,8 @@ setInterval(() => {
     document.getElementById("points").textContent = points;
 
 }, 1000);
-shopButton.addEventListener("click", () => {
 
-    menu.classList.add("expanded");
 
-    shop.style.display = "block";
-
-});
 closeShop.addEventListener("click", () => {
 
     menu.classList.remove("expanded");
@@ -64,9 +59,6 @@ let multiplier = 1;
 
 const pointsText =
 document.getElementById("points");
-
-const shop =
-document.getElementById("shop");
 
 const shopContent =
 document.getElementById("shopContent");
