@@ -1,3 +1,4 @@
+console.log("SCRIPT OK");
 const menu = document.getElementById("menu");
 const shopButton = document.getElementById("shopButton");
 const closeShop = document.getElementById("closeShop");
