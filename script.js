@@ -72,11 +72,11 @@ function startPoints(){
 }
 
 startPoints();
-const mwindow.onload = () => {
-    console.log("READY");
+
+  
     notify("🤖 Bono del Bot activo");
 notify("🤖 Bono del Bot finalizado");
-};
+
 const notificationContainer =
 document.getElementById("notificationContainer");
 const speechBubble = document.getElementById("speechBubble");
