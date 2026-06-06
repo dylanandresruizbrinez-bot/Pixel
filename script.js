@@ -60,8 +60,6 @@ let multiplier = 1;
 const pointsText =
 document.getElementById("points");
 
-const shopContent =
-document.getElementById("shopContent");
 
 const notificationContainer =
 document.getElementById("notificationContainer");
