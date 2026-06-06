@@ -187,22 +187,7 @@ body{
         drop-shadow(0 0 20px gold)
         drop-shadow(0 0 30px gold);
 }
-#pointsPanel{
-    position:fixed;
-    right:15px;
-    bottom:15px;
 
-    background:#222;
-    color:gold;
-
-    padding:10px;
-
-    border:2px solid gold;
-
-    font-family:monospace;
-
-    z-index:1000;
-}
 
 #notificationContainer{
     position:fixed;
