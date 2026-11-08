@@ -135,13 +135,7 @@ function notify(text){
         div.remove();
     },5000);
 }
-setInterval(() => {
 
-    points += multiplier;
-
-    pointsText.textContent = points;
-
-},1000);
 setInterval(() => {
 
     let roll = Math.random();
@@ -222,45 +216,71 @@ function say(message){
         speechBubble.classList.remove("show");
     }, 9000);
 }
-function buildShop(){
+function buildShop() {
 
     shopContent.innerHTML = "";
 
     shopItems.forEach(item => {
 
-        const btn =
-        document.createElement("button");
+        const btn = document.createElement("button");
 
-        btn.textContent =
-        `${item.id} - ${item.price}`;
+        const owned = inventory[item.type + "s"];
+
+        if (owned.includes(item.id)) {
+            btn.textContent = `✓ ${item.id} - Adquirido`;
+            btn.disabled = true;
+        } else {
+            btn.textContent = `${item.id} - ${item.price} puntos`;
+        }
 
         btn.onclick = () => {
 
-            if(points < item.price){
+            if (owned.includes(item.id)) {
+                notify("Ya tienes este artículo");
+                return;
+            }
+
+            if (points < item.price) {
                 notify("❌ Puntos insuficientes");
                 return;
             }
 
             points -= item.price;
 
-            inventory[
-                item.type + "s"
-            ].push(item.id);
+            owned.push(item.id);
 
-            notify(
-                `✅ Comprado ${item.id}`
+            updatePoints();
+
+            const selectors = {
+                color: colorSelect,
+                design: designSelect,
+                trail: trailSelect
+            };
+
+            const selector = selectors[item.type];
+
+            const option = document.createElement("option");
+
+            option.value = item.id;
+            option.textContent = item.id;
+
+            selector.appendChild(option);
+
+            selector.value = item.id;
+
+            selector.dispatchEvent(
+                new Event("change")
             );
 
-            pointsText.textContent =
-            points;
+            notify(`✅ Compraste ${item.id}`);
+
+            buildShop();
         };
 
         shopContent.appendChild(btn);
-        shopContent.appendChild(
-            document.createElement("br")
-        );
 
     });
+
 }
 shopButton.onclick = () => {
 
@@ -417,6 +437,15 @@ function applyDesign(){
         "design-stripes",
         "design-spikes"
     );
+    function updatePoints() {
+    pointsText.textContent = points;
+
+    pointsText.classList.remove("points-pop");
+
+    void pointsText.offsetWidth;
+
+    pointsText.classList.add("points-pop");
+}
 
     switch(designSelect.value){
 
