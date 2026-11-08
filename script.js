@@ -247,9 +247,11 @@ function buildShop() {
 
             points -= item.price;
 
-            owned.push(item.id);
+           owned.push(item.id);
 
-            updatePoints();
+updatePoints();
+
+updateInventory();
 
             const selectors = {
                 color: colorSelect,
@@ -494,3 +496,39 @@ designSelect.addEventListener("change",applyDesign);
 
 applyColor();
 applyDesign();
+updateInventory();
+function updateInventory() {
+
+    const selectors = {
+        color: colorSelect,
+        design: designSelect,
+        trail: trailSelect
+    };
+
+    Object.keys(selectors).forEach(type => {
+
+        const selector = selectors[type];
+        const items = inventory[type + "s"];
+
+        const currentValue = selector.value;
+
+        selector.innerHTML = "";
+
+        items.forEach(id => {
+
+            const option = document.createElement("option");
+
+            option.value = id;
+            option.textContent = id;
+
+            selector.appendChild(option);
+
+        });
+
+        if (items.includes(currentValue)) {
+            selector.value = currentValue;
+        }
+
+    });
+
+}
