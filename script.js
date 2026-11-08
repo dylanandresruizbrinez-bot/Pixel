@@ -1,111 +1,35 @@
-console.log("SCRIPT OK");
+
+// ============================================
+// PIXEL BOT
+// Código organizado y corregido
+// ============================================
+
+console.log("PIXEL BOT: SCRIPT OK");
+
+// ---------- Elementos del DOM ----------
+
 const menu = document.getElementById("menu");
 const shopButton = document.getElementById("shopButton");
-const closeShop = document.getElementById("closeShop");
+const closeShopButton = document.getElementById("closeShop");
 const shop = document.getElementById("shop");
 const shopContent = document.getElementById("shopContent");
+
 const player = document.getElementById("player");
-closeShop.addEventListener("click", () => {
-
-    menu.classList.remove("expanded");
-
-    shop.style.display = "none";
-
-});
-const inventory = {
-    colors:["white"],
-    designs:["normal"],
-    trails:["."]
-};
-const shopItems = [
-
-{type:"color",id:"blue",price:100},
-{type:"color",id:"yellow",price:100},
-{type:"color",id:"red",price:100},
-{type:"color",id:"green",price:100},
-{type:"color",id:"orange",price:100},
-{type:"color",id:"purple",price:100},
-{type:"color",id:"black",price:100},
-{type:"color",id:"gray",price:100},
-{type:"color",id:"gold",price:150},
-{type:"color",id:"pink",price:150},
-
-{type:"design",id:"round",price:250},
-{type:"design",id:"border",price:250},
-{type:"design",id:"dots",price:250},
-{type:"design",id:"stripes",price:250},
-{type:"design",id:"spikes",price:250},
-
-{type:"trail",id:":",price:150},
-{type:"trail",id:"(",price:150},
-{type:"trail",id:"-",price:150},
-{type:"trail",id:"67",price:200},
-{type:"trail",id:"F",price:200},
-{type:"trail",id:"I",price:200},
-{type:"trail",id:"o",price:150},
-{type:"trail",id:'"',price:150}
-
-];
-let points = 0;
-let multiplier = 1;
-
 const pointsText = document.getElementById("points");
-
-function startPoints(){
-
-    setInterval(() => {
-
-        points += multiplier;
-
-        if(pointsText){
-            pointsText.textContent = points;
-        }
-
-    }, 1000);
-
-}
-
-startPoints();
-
-  
-const notificationContainer =
-document.getElementById("notificationContainer");
+const notificationContainer = document.getElementById("notificationContainer");
 const speechBubble = document.getElementById("speechBubble");
 
+const colorSelect = document.getElementById("colorSelect");
+const designSelect = document.getElementById("designSelect");
+const trailSelect = document.getElementById("trailSelect");
+const trailContainer = document.getElementById("trailContainer");
 
-const messages = [
-
-"¡Buenos días! Hoy es una nueva oportunidad para brillar.",
-"¡Qué alegría verte! Presiento que hoy vas a lograr algo genial.",
-
-"¡Oye, lo estás haciendo increíble! No te rindas.",
-"¡Eso estuvo espectacular! Sabía que podías lograrlo.",
-"Si las cosas se ponen difíciles, recuerda que yo confío en ti al 100%.",
-
-"No olvides estirarte un poquito y tomar agua hoy, ¿vale?",
-"¡Un descanso también es parte del éxito! Respira hondo.",
-"Paso a recordarte que eres una persona súper valiosa.",
-
-"Diste lo mejor de ti hoy, ¡estoy muy orgulloso!",
-"A descansar, campeón. Mañana será otro gran día.",
-
-"¡El primer paso es el más importante y ya lo diste!",
-"No tienes que ser perfecto, ¡con que seas tú mismo es más que suficiente!",
-"¡Atrévete a intentar algo nuevo hoy! Yo te echo porras desde aquí.",
-"Tus metas son grandes, ¡pero tú eres mucho más grande que ellas!",
-
-"Cámbiate el 'no puedo' por el 'voy a ver cómo lo logro'.",
-"Está bien tener días grises, recuerda que después de la tormenta siempre sale el sol.",
-"¡Ey, respira! Todo va a salir bien, vas a ver que sí.",
-
-"¡Choca esos cinco! Tu esfuerzo de hoy valió totalmente la pena.",
-"Cada pequeño avance cuenta. ¡Celébralo!",
-"Gracias por contagiarme tu buena vibra."
-
-];
-
+// ---------- Estado del juego ----------
 
 const SIZE = 32;
+
+let points = 0;
+let multiplier = 1;
 
 let x = window.innerWidth / 2;
 let y = 100;
@@ -118,123 +42,244 @@ const friction = 0.97;
 
 let moveDirection = 1;
 let desiredSpeed = 0;
-
 let nextDecision = Date.now() + 1000;
-function notify(text){
 
-    const div =
-    document.createElement("div");
+let energyMode = false;
+let energyEnd = 0;
 
-    div.className = "notification";
+// ---------- Inventario ----------
 
-    div.textContent = text;
+const inventory = {
+    colors: ["white"],
+    designs: ["normal"],
+    trails: ["."]
+};
 
-    notificationContainer.appendChild(div);
+// ---------- Artículos de la tienda ----------
 
-    setTimeout(() => {
-        div.remove();
-    },5000);
+const shopItems = [
+    { type: "color", id: "blue", price: 100 },
+    { type: "color", id: "yellow", price: 100 },
+    { type: "color", id: "red", price: 100 },
+    { type: "color", id: "green", price: 100 },
+    { type: "color", id: "orange", price: 100 },
+    { type: "color", id: "purple", price: 100 },
+    { type: "color", id: "black", price: 100 },
+    { type: "color", id: "gray", price: 100 },
+    { type: "color", id: "gold", price: 150 },
+    { type: "color", id: "pink", price: 150 },
+
+    { type: "design", id: "round", price: 250 },
+    { type: "design", id: "border", price: 250 },
+    { type: "design", id: "dots", price: 250 },
+    { type: "design", id: "stripes", price: 250 },
+    { type: "design", id: "spikes", price: 250 },
+
+    { type: "trail", id: ":", price: 150 },
+    { type: "trail", id: "(", price: 150 },
+    { type: "trail", id: "-", price: 150 },
+    { type: "trail", id: "67", price: 200 },
+    { type: "trail", id: "F", price: 200 },
+    { type: "trail", id: "I", price: 200 },
+    { type: "trail", id: "o", price: 150 },
+    { type: "trail", id: '"', price: 150 }
+];
+
+const colorMap = {
+    white: "#ffffff",
+    blue: "#00aaff",
+    yellow: "#ffff00",
+    red: "#ff3333",
+    green: "#00ff66",
+    orange: "#ff8800",
+    purple: "#bb55ff",
+    black: "#111111",
+    gray: "#999999",
+    gold: "#ffd700",
+    pink: "#ff66cc"
+};
+
+// ---------- Mensajes del bot ----------
+
+const messages = [
+    "¡Buenos días! Hoy es una nueva oportunidad para brillar.",
+    "¡Qué alegría verte! Presiento que hoy vas a lograr algo genial.",
+    "¡Oye, lo estás haciendo increíble! No te rindas.",
+    "¡Eso estuvo espectacular! Sabía que podías lograrlo.",
+    "Si las cosas se ponen difíciles, recuerda que yo confío en ti al 100%.",
+    "No olvides estirarte un poquito y tomar agua hoy, ¿vale?",
+    "¡Un descanso también es parte del éxito! Respira hondo.",
+    "Paso a recordarte que eres una persona súper valiosa.",
+    "Diste lo mejor de ti hoy, ¡estoy muy orgulloso!",
+    "A descansar, campeón. Mañana será otro gran día.",
+    "¡El primer paso es el más importante y ya lo diste!",
+    "No tienes que ser perfecto, ¡con que seas tú mismo es más que suficiente!",
+    "¡Atrévete a intentar algo nuevo hoy! Yo te echo porras desde aquí.",
+    "Tus metas son grandes, ¡pero tú eres mucho más grande que ellas!",
+    "Cámbiate el 'no puedo' por el 'voy a ver cómo lo logro'.",
+    "Está bien tener días grises, recuerda que después de la tormenta siempre sale el sol.",
+    "¡Ey, respira! Todo va a salir bien, vas a ver que sí.",
+    "¡Choca esos cinco! Tu esfuerzo de hoy valió totalmente la pena.",
+    "Cada pequeño avance cuenta. ¡Celébralo!",
+    "Gracias por contagiarme tu buena vibra."
+];
+
+// ---------- Puntos ----------
+
+function updatePoints(animate = false) {
+    if (!pointsText) return;
+
+    pointsText.textContent = points;
+
+    if (animate) {
+        pointsText.classList.remove("points-pop");
+        void pointsText.offsetWidth;
+        pointsText.classList.add("points-pop");
+    }
 }
 
-setInterval(() => {
-
-    let roll = Math.random();
-
-    if(energyMode){
-
-        roll -= 0.10;
-    }
-
-    if(roll < 0.05){
-
-        multiplier = 5;
-
-        notify("🔥 Multiplicador x5");
-
-    }else if(roll < 0.20){
-
-        multiplier = 3;
-
-        notify("⚡ Multiplicador x3");
-
-    }else if(roll < 0.50){
-
-        multiplier = 2;
-
-        notify("✨ Multiplicador x2");
-
-    }else{
-
-        multiplier = 1;
-    }
-
-},10000);
-function botBrain() {
-
-    if (Date.now() < nextDecision) return;
-
-    nextDecision = Date.now() + 800 + Math.random() * 2500;
-
-    const action = Math.random();
-
-    if (action < 0.45) {
-
-        moveDirection = -1;
-        const speedBoost =
-    energyMode ? 2.2 : 1;
-
-desiredSpeed =
-    (2 + Math.random() * 2) *
-    speedBoost;
-
-    } else if (action < 0.90) {
-
-        moveDirection = 1;
-        desiredSpeed = 2 + Math.random() * 2;
-
-    } else {
-
-        desiredSpeed = 0;
-    }
-
-    const onGround = y >= floor();
-
-    if (onGround && Math.random() < 0.35) {
-        velocityY =
-    energyMode
-        ? -14 - Math.random() * 4
-        : -8 - Math.random() * 2;
-    }
+function startPoints() {
+    setInterval(() => {
+        points += multiplier;
+        updatePoints();
+    }, 1000);
 }
-function say(message){
+
+// ---------- Notificaciones y diálogos ----------
+
+function notify(message) {
+    if (!notificationContainer) return;
+
+    const notification = document.createElement("div");
+    notification.className = "notification";
+    notification.textContent = message;
+
+    notificationContainer.appendChild(notification);
+
+    setTimeout(() => notification.remove(), 5000);
+}
+
+function say(message) {
+    if (!speechBubble) return;
 
     speechBubble.textContent = message;
-
     speechBubble.classList.add("show");
 
     setTimeout(() => {
         speechBubble.classList.remove("show");
     }, 9000);
 }
+
+function randomMessage() {
+    const message = messages[Math.floor(Math.random() * messages.length)];
+    say(message);
+}
+
+// ---------- Apariencia del jugador ----------
+
+function applyColor() {
+    if (!player || !colorSelect) return;
+
+    const color = colorMap[colorSelect.value] || colorMap.white;
+
+    player.style.background = color;
+    player.style.borderColor = color;
+    player.style.boxShadow = `
+        0 0 5px ${color},
+        0 0 10px ${color},
+        0 0 20px ${color},
+        0 0 40px ${color}
+    `;
+}
+
+function applyDesign() {
+    if (!player || !designSelect) return;
+
+    player.classList.remove(
+        "design-round",
+        "design-border",
+        "design-dots",
+        "design-stripes",
+        "design-spikes"
+    );
+
+    switch (designSelect.value) {
+        case "round":
+            player.classList.add("design-round");
+            break;
+        case "border":
+            player.classList.add("design-border");
+            break;
+        case "dots":
+            player.classList.add("design-dots");
+            break;
+        case "stripes":
+            player.classList.add("design-stripes");
+            break;
+        case "spikes":
+            player.classList.add("design-spikes");
+            break;
+    }
+}
+
+// Reconstruye los selectores desde el inventario.
+// El artículo recién comprado queda equipado.
+
+function updateInventory(equipType = null, equipId = null) {
+    const selectors = {
+        color: colorSelect,
+        design: designSelect,
+        trail: trailSelect
+    };
+
+    for (const type of Object.keys(selectors)) {
+        const selector = selectors[type];
+        if (!selector) continue;
+
+        const items = inventory[`${type}s`];
+        const previousValue = selector.value;
+
+        selector.innerHTML = "";
+
+        items.forEach(id => {
+            const option = document.createElement("option");
+            option.value = id;
+            option.textContent = id;
+            selector.appendChild(option);
+        });
+
+        if (type === equipType && items.includes(equipId)) {
+            selector.value = equipId;
+        } else if (items.includes(previousValue)) {
+            selector.value = previousValue;
+        } else {
+            selector.value = items[0] || "";
+        }
+    }
+
+    applyColor();
+    applyDesign();
+}
+
+// ---------- Tienda ----------
+
 function buildShop() {
+    if (!shopContent) return;
 
     shopContent.innerHTML = "";
 
     shopItems.forEach(item => {
-
-        const btn = document.createElement("button");
-
-        const owned = inventory[item.type + "s"];
+        const button = document.createElement("button");
+        const owned = inventory[`${item.type}s`];
 
         if (owned.includes(item.id)) {
-            btn.textContent = `✓ ${item.id} - Adquirido`;
-            btn.disabled = true;
+            button.textContent = `✓ ${item.id} - Adquirido`;
+            button.disabled = true;
         } else {
-            btn.textContent = `${item.id} - ${item.price} puntos`;
+            button.textContent = `${item.id} - ${item.price} puntos`;
         }
 
-        btn.onclick = () => {
-
+        button.addEventListener("click", () => {
             if (owned.includes(item.id)) {
                 notify("Ya tienes este artículo");
                 return;
@@ -246,121 +291,81 @@ function buildShop() {
             }
 
             points -= item.price;
+            owned.push(item.id);
 
-           owned.push(item.id);
-
-updatePoints();
-
-updateInventory();
-
-            const selectors = {
-                color: colorSelect,
-                design: designSelect,
-                trail: trailSelect
-            };
-
-            const selector = selectors[item.type];
-
-            const option = document.createElement("option");
-
-            option.value = item.id;
-            option.textContent = item.id;
-
-            selector.appendChild(option);
-
-            selector.value = item.id;
-
-            selector.dispatchEvent(
-                new Event("change")
-            );
+            updatePoints(true);
+            updateInventory(item.type, item.id);
 
             notify(`✅ Compraste ${item.id}`);
-
             buildShop();
-        };
+        });
 
-        shopContent.appendChild(btn);
-
+        shopContent.appendChild(button);
     });
-
 }
-shopButton.onclick = () => {
 
-    buildShop();
+// ---------- Multiplicadores ----------
 
-    shop.style.display = "block";
-};
+function updateMultiplier() {
+    let roll = Math.random();
 
-closeShop.onclick = () => {
-
-    shop.style.display = "none";
-};
-function randomMessage(){
-
-    const msg =
-        messages[Math.floor(Math.random() * messages.length)];
-
-    say(msg);
-}
-setTimeout(() => {
-    randomMessage();
-}, 2000);
-setInterval(() => {
-
-    if(Math.random() < 0.35){
-        randomMessage();
+    if (energyMode) {
+        roll -= 0.10;
     }
 
-}, 45000);
-let energyMode = false;
-let energyEnd = 0;
-function activateEnergyBoost(){
-
-    energyMode = true;
-
-    energyEnd =
-        Date.now() + 30000;
-
-    player.classList.add("energyMode");
-
-    say("⚡ ¡Tengo un impulso de energía! ¡Vamos allá!");
-}
-
-function updateEnergyBoost(){
-
-    if(
-        energyMode &&
-        Date.now() > energyEnd
-    ){
-        energyMode = false;
-        player.classList.remove("energyMode");
-
-        say("😌 Ya me siento más tranquilo.");
+    if (roll < 0.05) {
+        multiplier = 5;
+        notify("🔥 Multiplicador x5");
+    } else if (roll < 0.20) {
+        multiplier = 3;
+        notify("⚡ Multiplicador x3");
+    } else if (roll < 0.50) {
+        multiplier = 2;
+        notify("✨ Multiplicador x2");
+    } else {
+        multiplier = 1;
     }
 }
-setInterval(() => {
 
-    if(Math.random() < 0.20){
+// ---------- Movimiento ----------
 
-        if(!energyMode){
-            activateEnergyBoost();
-        }
-
-    }
-
-}, 60000);
 function floor() {
     return window.innerHeight - SIZE - 4;
 }
 
-function updatePhysics() {
+function botBrain() {
+    if (Date.now() < nextDecision) return;
 
+    nextDecision = Date.now() + 800 + Math.random() * 2500;
+
+    const action = Math.random();
+
+    if (action < 0.45) {
+        moveDirection = -1;
+
+        const speedBoost = energyMode ? 2.2 : 1;
+        desiredSpeed = (2 + Math.random() * 2) * speedBoost;
+    } else if (action < 0.90) {
+        moveDirection = 1;
+        desiredSpeed = 2 + Math.random() * 2;
+    } else {
+        desiredSpeed = 0;
+    }
+
+    const onGround = y >= floor();
+
+    if (onGround && Math.random() < 0.35) {
+        velocityY = energyMode
+            ? -14 - Math.random() * 4
+            : -8 - Math.random() * 2;
+    }
+}
+
+function updatePhysics() {
     botBrain();
 
     velocityX += (moveDirection * desiredSpeed - velocityX) * 0.03;
-
     velocityX *= friction;
-
     velocityY += gravity;
 
     x += velocityX;
@@ -383,152 +388,107 @@ function updatePhysics() {
         moveDirection = -1;
     }
 
-    player.style.left = x + "px";
-    player.style.top = y + "px";
-}
-
-function gameLoop() {
-
-    updatePhysics();
-updateEnergyBoost();
-    requestAnimationFrame(gameLoop);
-}
-
-gameLoop();
-
-const colorSelect = document.getElementById("colorSelect");
-const designSelect = document.getElementById("designSelect");
-const trailSelect = document.getElementById("trailSelect");
-const trailContainer = document.getElementById("trailContainer");
-
-const colorMap = {
-    white:"#ffffff",
-    blue:"#00aaff",
-    yellow:"#ffff00",
-    red:"#ff3333",
-    green:"#00ff66",
-    orange:"#ff8800",
-    purple:"#bb55ff",
-    black:"#111111",
-    gray:"#999999",
-    gold:"#ffd700",
-    pink:"#ff66cc"
-};
-
-function applyColor(){
-
-    const color = colorMap[colorSelect.value];
-
-    player.style.background = color;
-    player.style.borderColor = color;
-
-    player.style.boxShadow = `
-        0 0 5px ${color},
-        0 0 10px ${color},
-        0 0 20px ${color},
-        0 0 40px ${color}
-    `;
-}
-
-function applyDesign(){
-
-    player.classList.remove(
-        "design-round",
-        "design-border",
-        "design-dots",
-        "design-stripes",
-        "design-spikes"
-    );
-    function updatePoints() {
-    pointsText.textContent = points;
-
-    pointsText.classList.remove("points-pop");
-
-    void pointsText.offsetWidth;
-
-    pointsText.classList.add("points-pop");
-}
-function updateInventory() {
-
-    const selectors = {
-        color: colorSelect,
-        design: designSelect,
-        trail: trailSelect
-    };
-
-    Object.keys(selectors).forEach(type => {
-
-        const selector = selectors[type];
-        const items = inventory[type + "s"];
-
-        const currentValue = selector.value;
-
-        selector.innerHTML = "";
-
-        items.forEach(id => {
-
-            const option = document.createElement("option");
-
-            option.value = id;
-            option.textContent = id;
-
-            selector.appendChild(option);
-
-        });
-
-        if (items.includes(currentValue)) {
-            selector.value = currentValue;
-        }
-
-    });
-
-}
-    switch(designSelect.value){
-
-        case "round":
-            player.classList.add("design-round");
-            break;
-
-        case "border":
-            player.classList.add("design-border");
-            break;
-
-        case "dots":
-            player.classList.add("design-dots");
-            break;
-
-        case "stripes":
-            player.classList.add("design-stripes");
-            break;
-
-        case "spikes":
-            player.classList.add("design-spikes");
-            break;
+    if (player) {
+        player.style.left = `${x}px`;
+        player.style.top = `${y}px`;
     }
 }
 
-setInterval(() => {
+// ---------- Modo energía ----------
+
+function activateEnergyBoost() {
+    energyMode = true;
+    energyEnd = Date.now() + 30000;
+
+    if (player) {
+        player.classList.add("energyMode");
+    }
+
+    say("⚡ ¡Tengo un impulso de energía! ¡Vamos allá!");
+}
+
+function updateEnergyBoost() {
+    if (energyMode && Date.now() > energyEnd) {
+        energyMode = false;
+
+        if (player) {
+            player.classList.remove("energyMode");
+        }
+
+        say("😌 Ya me siento más tranquilo.");
+    }
+}
+
+// ---------- Estela ----------
+
+function createTrail() {
+    if (!trailContainer || !trailSelect) return;
 
     const mark = document.createElement("div");
-
     mark.className = "trail";
     mark.textContent = trailSelect.value;
 
-    mark.style.left = (x + 10) + "px";
-    mark.style.top = (y + 10) + "px";
+    mark.style.left = `${x + 10}px`;
+    mark.style.top = `${y + 10}px`;
 
     trailContainer.appendChild(mark);
 
-    setTimeout(() => {
-        mark.remove();
-    },1500);
+    setTimeout(() => mark.remove(), 1500);
+}
 
-},120);
+// ---------- Bucle principal ----------
 
-colorSelect.addEventListener("change",applyColor);
-designSelect.addEventListener("change",applyDesign);
+function gameLoop() {
+    updatePhysics();
+    updateEnergyBoost();
+    requestAnimationFrame(gameLoop);
+}
 
-applyColor();
-applyDesign();
+// ---------- Eventos ----------
+
+if (closeShopButton) {
+    closeShopButton.addEventListener("click", () => {
+        if (menu) menu.classList.remove("expanded");
+        if (shop) shop.style.display = "none";
+    });
+}
+
+if (shopButton) {
+    shopButton.addEventListener("click", () => {
+        buildShop();
+        if (shop) shop.style.display = "block";
+    });
+}
+
+if (colorSelect) {
+    colorSelect.addEventListener("change", applyColor);
+}
+
+if (designSelect) {
+    designSelect.addEventListener("change", applyDesign);
+}
+
+// ---------- Inicio ----------
+
 updateInventory();
+updatePoints();
+startPoints();
+gameLoop();
+
+setInterval(updateMultiplier, 10000);
+setInterval(createTrail, 120);
+
+setTimeout(randomMessage, 2000);
+
+setInterval(() => {
+    if (Math.random() < 0.35) {
+        randomMessage();
+    }
+}, 45000);
+
+setInterval(() => {
+    if (Math.random() < 0.20 && !energyMode) {
+        activateEnergyBoost();
+    }
+}, 60000);
 
