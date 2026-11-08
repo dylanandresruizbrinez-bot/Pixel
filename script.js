@@ -73,7 +73,7 @@ document.getElementById("notificationContainer");
 const speechBubble = document.getElementById("speechBubble");
 
 
-messages = [
+const messages = [
 
 "¡Buenos días! Hoy es una nueva oportunidad para brillar.",
 "¡Qué alegría verte! Presiento que hoy vas a lograr algo genial.",
